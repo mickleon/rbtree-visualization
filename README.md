@@ -1,4 +1,4 @@
-# Red-black tree visualisation
+# Red-black tree visualisation by Skeltex
 
 ## What is this?
 
