@@ -18,8 +18,7 @@ int main() {
 
     char c;
     while (true) {
-        cout << tr;
-        cout << "1. Insert\n2. Erase\n3. Quit\n> ";
+        cout << tr << "1. Insert\n2. Erase\n3. Quit\n> ";
         cin >> c;
         switch (c) {
         case '1': {

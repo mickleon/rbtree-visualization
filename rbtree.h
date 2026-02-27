@@ -5,15 +5,6 @@
 
 using std::ostream, std::vector;
 
-struct Node {
-    int inf;
-    Node *left, *right;
-    Node *parent;
-    char color;
-
-    Node(const int value);
-};
-
 class RBTree {
 public:
     bool show_null_leaves;
@@ -21,9 +12,18 @@ public:
 
     ~RBTree();
 
+    struct Node {
+        int inf;
+        Node *left, *right;
+        Node *parent;
+        char color;
+
+        Node(const int value);
+    };
+
     void insert(const int value);
     void erase(const int value);
-    Node *find(const int value) const;
+    RBTree::Node *find(const int value) const;
     int max() const;
     int min() const;
     void clear();
@@ -39,12 +39,11 @@ private:
     void insert_fixup(Node *node);
     void erase_node(Node *node);
     void erase_fixup(Node *node);
-    Node *find(Node *node, const int value) const;
-    Node *max(Node *node) const;
-    Node *min(Node *node) const;
-    void clear(Node *node);
-    int height(const Node *node) const;
-    int height() const;
+    static Node *find(Node *node, const int value);
+    static Node *max(Node *node);
+    static Node *min(Node *node);
+    static void clear(Node *node);
+    static int height(const Node *node);
     void make_array(
         vector<vector<const Node *>> &array, const Node *node, const int depth = 0,
         const int count = 1

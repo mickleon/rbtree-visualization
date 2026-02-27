@@ -6,7 +6,7 @@
 
 using std::vector, std::cout, std::setw, std::ostream;
 
-Node::Node(const int value) {
+RBTree::Node::Node(const int value) {
     inf = value;
     left = right = parent = nullptr;
     color = 'r';
@@ -18,7 +18,7 @@ RBTree::RBTree() {
 }
 
 // "nullptr" node that used for `print(show_null_leaves = true)`
-const Node *RBTree::NIL = new Node(0);
+const RBTree::Node *RBTree::NIL = new Node(0);
 
 RBTree::~RBTree() {
     clear(this->root);
@@ -152,7 +152,7 @@ void RBTree::insert_fixup(Node *node) {
 
 // Erases the node with value `value` from tree and calls the fixup function
 void RBTree::erase(const int value) {
-    Node *node = this->find(value);
+    Node *node = this->find(this->root, value);
     if (node != nullptr) {
         this->erase_node(node);
     }
@@ -268,24 +268,23 @@ void RBTree::erase_fixup(Node *node) {
 }
 
 // Returns a pointer to a node in the subtree `node` with the value `value`
-Node *RBTree::find(Node *node, const int value) const {
+RBTree::Node *RBTree::find(Node *node, const int value) {
     if (node == nullptr || node->inf == value) {
         return node;
     }
 
     if (value < node->inf) {
-        return this->find(node->left, value);
+        return RBTree::find(node->left, value);
     }
-    return this->find(node->right, value);
+    return RBTree::find(node->right, value);
 }
 
-// Overload of previous function, where `node` is a tree root `this->root`
-Node *RBTree::find(const int value) const {
-    return this->find(this->root, value);
+RBTree::Node *RBTree::find(const int value) const {
+    return RBTree::find(this->root, value);
 }
 
 // Returns a pointer to a node in the subtree `node` with the maximal value
-Node *RBTree::max(Node *node) const {
+RBTree::Node *RBTree::max(Node *node) {
     if (node == nullptr) {
         return nullptr;
     }
@@ -303,7 +302,7 @@ int RBTree::max() const {
 }
 
 // Returns a pointer to a node in the subtree `node` with the minimal value
-Node *RBTree::min(Node *node) const {
+RBTree::Node *RBTree::min(Node *node) {
     if (node == nullptr) {
         return nullptr;
     }
@@ -319,16 +318,11 @@ int RBTree::min() const {
     return this->min(this->root)->inf;
 }
 
-int RBTree::height(const Node *node) const {
+int RBTree::height(const Node *node) {
     if (node == nullptr) {
         return 0;
     }
-    return 1 + std::max(this->height(node->left), this->height(node->right));
-}
-
-// Overload of previous function, where `node` is a tree root `this->root`
-int RBTree::height() const {
-    return this->height(this->root);
+    return 1 + std::max(height(node->left), height(node->right));
 }
 
 // Traversal with depth calculation and node offset from the left edge of the level
@@ -361,7 +355,7 @@ const int digit_count(const int x) {
     }
 }
 
-ostream &operator<<(ostream &out, const Node *node) {
+ostream &operator<<(ostream &out, const RBTree::Node *node) {
     const std::streamsize width = cout.width();
     out << setw(0);
     if (node == nullptr) {
@@ -385,9 +379,9 @@ ostream &operator<<(ostream &out, const RBTree &tr) {
     }
 
     int width, offset = 1;
-    vector<vector<const Node *>> array;
-    array.assign(tr.show_null_leaves ? (tr.height() + 1) : tr.height(), {});
-    for (vector<const Node *> &level : array) {
+    vector<vector<const RBTree::Node *>> array;
+    array.assign(tr.show_null_leaves ? (RBTree::height(tr.root) + 1) : RBTree::height(tr.root), {});
+    for (vector<const RBTree::Node *> &level : array) {
         level.assign(offset, nullptr);
         offset <<= 1;
     }
@@ -397,7 +391,7 @@ ostream &operator<<(ostream &out, const RBTree &tr) {
     const int d = std::max(digit_count(tr.max(tr.root)->inf), digit_count(tr.min(tr.root)->inf));
     width = (d + 1) * (offset >> 1);
     offset = 1;
-    for (vector<const Node *> &level : array) {
+    for (vector<const RBTree::Node *> &level : array) {
         out << setw(width >> 1) << level[0];
         for (int i = 1; i < offset; ++i) {
             out << setw(width) << level[i];
@@ -412,8 +406,8 @@ ostream &operator<<(ostream &out, const RBTree &tr) {
 // Erases all the nodes from the subtree `node`
 void RBTree::clear(Node *node) {
     if (node != nullptr) {
-        this->clear(node->left);
-        this->clear(node->right);
+        RBTree::clear(node->left);
+        RBTree::clear(node->right);
         delete node;
     }
 }

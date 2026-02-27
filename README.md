@@ -1,4 +1,4 @@
-# Red-black tree visualisation
+# Red/black tree visualisation
 
 ## What is this?
 
@@ -18,13 +18,13 @@ g++ main.cpp rbtree.cpp -o main && ./main
 
 The following functions are available for working with tree:
 
-- `void RBTree::insert(int value)`: inserts node with value `value` to a tree and calls the fixup function.
-- `void RBTree::erase(int value)`: erases the node with value `value` from tree and calls the fixup function.
-- `Node* RBTree::find(int value)`: returns a pointer to a node in the tree with the value `value`.
-- `Node* RBTree::max()`: returns a pointer to a node in the tree with the maximal value.
-- `Node* RBTree::min()`: returns a pointer to a node in the tree with the minimal value.
-- `ostream &operator<<(ostream &out, const RBTree &tr)`: outputs the tree to the ostream. If `RBTree::show_null_leaves` is `true` (`false` by default) it displays null leaves.
+- `void RBTree::insert(const int value)`: inserts node with value `value` to a tree and calls the fixup function.
+- `void RBTree::erase(const int value)`: erases the node with value `value` from tree and calls the fixup function.
+- `int RBTree::max() const`: returns maximum value in the tree.
+- `int RBTree::min() const`: returns minimum value in the tree.
+- `RBTree::Node *find(const int value) const`: returns a pointer to a node in the tree with the value `value`.
 - `void RBTree::clear()`: erases all the nodes from the tree.
+- `ostream &operator<<(ostream &out, const RBTree &tr)`: outputs the tree to the ostream. If `RBTree::show_null_leaves` is `true` (`false` by default) it displays null leaves.
 
 ## Example of output
 
