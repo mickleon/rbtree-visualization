@@ -5,8 +5,10 @@
 #include "rbtree.h"
 
 using std::vector, std::cout, std::setw, std::ostream;
+using Node = RBTree::Node;
+using Color = Node::Color;
 
-RBTree::Node::Node(const int value) {
+Node::Node(const int value) {
     inf = value;
     left = right = parent = nullptr;
     color = RED;
@@ -18,7 +20,7 @@ RBTree::RBTree() {
 }
 
 // "nullptr" node that used for `print(show_null_leaves = true)`
-const RBTree::Node *RBTree::NIL = new Node(0);
+const Node *RBTree::NIL = new Node(0);
 
 RBTree::~RBTree() {
     clear(this->root);
@@ -268,7 +270,7 @@ void RBTree::erase_fixup(Node *node) {
 }
 
 // Returns a pointer to a node in the subtree `node` with the value `value`
-RBTree::Node *RBTree::find(Node *node, const int value) {
+Node *RBTree::find(Node *node, const int value) {
     if (node == nullptr || node->inf == value) {
         return node;
     }
@@ -279,12 +281,12 @@ RBTree::Node *RBTree::find(Node *node, const int value) {
     return RBTree::find(node->right, value);
 }
 
-RBTree::Node *RBTree::find(const int value) const {
+Node *RBTree::find(const int value) const {
     return RBTree::find(this->root, value);
 }
 
 // Returns a pointer to a node in the subtree `node` with the maximal value
-RBTree::Node *RBTree::max(Node *node) {
+Node *RBTree::max(Node *node) {
     if (node == nullptr) {
         return nullptr;
     }
@@ -302,7 +304,7 @@ int RBTree::max() const {
 }
 
 // Returns a pointer to a node in the subtree `node` with the minimal value
-RBTree::Node *RBTree::min(Node *node) {
+Node *RBTree::min(Node *node) {
     if (node == nullptr) {
         return nullptr;
     }
@@ -355,7 +357,7 @@ const int digit_count(const int x) {
     }
 }
 
-ostream &operator<<(ostream &out, const RBTree::Node *node) {
+ostream &operator<<(ostream &out, const Node *node) {
     const std::streamsize width = cout.width();
     out << setw(0);
     if (node == nullptr) {
@@ -364,7 +366,7 @@ ostream &operator<<(ostream &out, const RBTree::Node *node) {
         }
     } else if (node == RBTree::NIL) {
         out << setw(width) << 'n';
-    } else if (node->color == RBTree::Node::RED) {
+    } else if (node->color == Node::RED) {
         out << "\033[31m" << setw(width) << node->inf << "\033[0m";
     } else {
         out << setw(width) << node->inf;
@@ -379,9 +381,9 @@ ostream &operator<<(ostream &out, const RBTree &tr) {
     }
 
     int width, offset = 1;
-    vector<vector<const RBTree::Node *>> array;
+    vector<vector<const Node *>> array;
     array.assign(tr.show_null_leaves ? (RBTree::height(tr.root) + 1) : RBTree::height(tr.root), {});
-    for (vector<const RBTree::Node *> &level : array) {
+    for (vector<const Node *> &level : array) {
         level.assign(offset, nullptr);
         offset <<= 1;
     }
@@ -391,7 +393,7 @@ ostream &operator<<(ostream &out, const RBTree &tr) {
     const int d = std::max(digit_count(tr.max(tr.root)->inf), digit_count(tr.min(tr.root)->inf));
     width = (d + 1) * (offset >> 1);
     offset = 1;
-    for (vector<const RBTree::Node *> &level : array) {
+    for (vector<const Node *> &level : array) {
         out << setw(width >> 1) << level[0];
         for (int i = 1; i < offset; ++i) {
             out << setw(width) << level[i];
