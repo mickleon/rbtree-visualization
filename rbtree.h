@@ -1,5 +1,5 @@
-#ifndef TREE_H
-#define TREE_H
+#ifndef RBTREE_H
+#define RBTREE_H
 #include <ostream>
 #include <vector>
 
