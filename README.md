@@ -14,9 +14,9 @@ This is a training example of a red/black tree. This may be necessary for those 
 g++ main.cpp rbtree.cpp -o main && ./main
 ```
 
-## Available methods
+## Available features
 
-The following functions are available for working with tree:
+The following methods are available for working with tree:
 
 - `void RBTree::insert(const int value)`: inserts node with value `value` to a tree and calls the fixup function.
 - `void RBTree::erase(const int value)`: erases the node with value `value` from tree and calls the fixup function.
