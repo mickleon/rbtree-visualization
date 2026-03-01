@@ -390,11 +390,12 @@ ostream &operator<<(ostream &out, const RBTree &tr) {
     tr.make_array(array, tr.root);
 
     // Maximum number of digits in node
-    const int d = std::max(digit_count(tr.max(tr.root)->inf), digit_count(tr.min(tr.root)->inf));
-    width = (d + 1) * (offset >> 1);
+    const int max_char_length =
+        std::max(digit_count(tr.max(tr.root)->inf), digit_count(tr.min(tr.root)->inf));
+    width = (max_char_length + 1) * (offset >> 1);
     offset = 1;
     for (vector<const Node *> &level : array) {
-        out << setw(std::max(width >> 1, d)) << level[0];
+        out << setw(std::max(width >> 1, max_char_length)) << level[0];
         for (int i = 1; i < offset; ++i) {
             out << setw(width) << level[i];
         }
