@@ -4,7 +4,7 @@
 
 #include "rbtree.h"
 
-using std::vector, std::cout, std::setw, std::ostream;
+using std::vector, std::setw, std::ostream;
 using Node = RBTree::Node;
 using Color = Node::Color;
 
@@ -394,7 +394,7 @@ ostream &operator<<(ostream &out, const RBTree &tr) {
     width = (d + 1) * (offset >> 1);
     offset = 1;
     for (vector<const Node *> &level : array) {
-        out << setw(width >> 1) << level[0];
+        out << setw(std::max(width >> 1, d)) << level[0];
         for (int i = 1; i < offset; ++i) {
             out << setw(width) << level[i];
         }
